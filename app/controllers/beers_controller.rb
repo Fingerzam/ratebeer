@@ -25,6 +25,7 @@ class BeersController < ApplicationController
   # GET /beers/new.json
   def new
     @beer = Beer.new
+    @breweries = Brewery.all
 
     respond_to do |format|
       format.html # new.html.erb
