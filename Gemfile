@@ -14,6 +14,8 @@ group :production do
   gem 'rails_stdout_logging'
 end
 
+gem 'debugger', :group => :development
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
