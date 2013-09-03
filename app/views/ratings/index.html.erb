@@ -3,7 +3,9 @@
 <p>number of ratings: <%= @ratings.size %></p>
 
 <ul>
-    <% @ratings.each do |rating| %>
-        <li> <%= rating %>
-    <% end %>
+  <% @ratings.each do |rating| %>
+    <li> <%= rating %>
+  <% end %>
 </ul>
+
+<%= link_to 'New rating', ratings_new_path %>
