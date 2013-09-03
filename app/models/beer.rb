@@ -11,4 +11,8 @@ class Beer < ActiveRecord::Base
       sum = numeric_ratings.inject(:+)
       sum / numeric_ratings.size
   end
+
+  def to_s
+    "#{name} (#{brewery.name})"
+  end
 end
