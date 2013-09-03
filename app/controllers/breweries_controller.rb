@@ -1,4 +1,5 @@
 class BreweriesController < ApplicationController
+  before_filter :authenticate, only: [:new, :create, :destroy]
   # GET /breweries
   # GET /breweries.json
   def index
@@ -78,6 +79,17 @@ class BreweriesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to breweries_url }
       format.json { head :no_content }
+    end
+  end
+
+  private
+
+  def authenticate
+    admin_accounts = {"admin" => "secret", "pekka" => "beer",
+                      "arto" => "foobar", "matti" => "ittam"}
+
+    authenticate_or_request_with_http_basic do |username, password|
+      admin_accounts.has_key?(username) and admin_accounts[username] == password
     end
   end
 end
