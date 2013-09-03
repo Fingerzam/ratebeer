@@ -17,7 +17,7 @@
 
 <p>
     <% unless @beer.ratings.empty? %>
-        beer has <%= @beer.ratings.size %> ratings, avarage
+        beer has <%= pluralize(@beer.ratings.size, 'rating') %>, avarage
         <%= @beer.avarage_rating %>
     <% end %>
 </p>
