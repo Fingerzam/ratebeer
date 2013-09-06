@@ -5,6 +5,21 @@
   <%= @user.username %>
 </p>
 
+<% unless @user.ratings.empty? %>
+  <p>
+    <%= pluralize(@user.ratings.length, 'rating') %>,
+    average <%= @user.average_rating %> points
+    <ul>
+      <% @user.ratings.each do |rating| %>
+        <li>
+          <%= rating %>
+          <%= link_to 'delete', rating, method: :delete %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+<% end %>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
