@@ -9,9 +9,9 @@ class RatingsController < ApplicationController
   end
 
   def create
-    Rating.create params[:rating]
-    session[:last_rating] =
-      "#{Beer.find(params[:rating][:beer_id])} #{params[:rating][:score]} points"
+    rating = Rating.create params[:rating]
+    current_user.ratings << rating
+
     redirect_to ratings_path
   end
 
