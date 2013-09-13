@@ -25,10 +25,11 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
+    throw unless params.has_key?(:membership)
     membership = Membership.create params[:membership]
-    current_user.clubs << membership
+    current_user.memberships << membership
 
-    redirect_to clubs_path
+    redirect_to beer_clubs_path
   end
 
   # DELETE /memberships/1
