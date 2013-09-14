@@ -20,6 +20,18 @@
   </p>
 <% end %>
 
+<% unless @user.memberships.empty? %>
+  <p>Clubs:
+    <ul>
+      <% for m in @user.memberships %>
+        <li>
+          <%= link_to m.beer_club.to_s, m.beer_club %>
+        </li>
+      <% end %>
+    </ul>
+  </p>
+<% end %>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

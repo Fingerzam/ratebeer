@@ -25,9 +25,10 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    throw unless params.has_key?(:membership)
-    membership = Membership.create params[:membership]
-    current_user.memberships << membership
+    if current_user.beer_clubs.select {|c| c.id == params[:membership][:beer_club_id].to_i}.empty?
+      membership = Membership.create params[:membership]
+      current_user.memberships << membership
+    end
 
     redirect_to beer_clubs_path
   end
