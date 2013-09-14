@@ -25,7 +25,8 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    if current_user.beer_clubs.select {|c| c.id == params[:membership][:beer_club_id].to_i}.empty?
+    ids = current_user.beer_clubs.map &:id
+    unless ids.include? params[:membership][:beer_club_id].to_i
       membership = Membership.create params[:membership]
       current_user.memberships << membership
     end
