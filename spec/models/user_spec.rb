@@ -13,6 +13,23 @@ describe User do
     expect(User.count).to eq(0)
   end
 
+  describe "is not saved and is not valid when" do
+    it "password is too short" do
+      user = User.create username: "Pekko", password: "asd", password_confirmation: "asd"
+
+      expect(user.valid?).to be(false)
+      expect(User.count).to eq(0)
+    end
+
+    it "password contains only letters" do
+      user = User.create username: "Test", password: "secret", password_confirmation: "secret"
+
+      expect(user.valid?).to be(false)
+      expect(User.count).to eq(0)
+    end
+  end
+
+
   describe "with a proper password" do
     let(:user) {User.create username: "Pekka", password: "secret1", password_confirmation: "secret1" }
 
