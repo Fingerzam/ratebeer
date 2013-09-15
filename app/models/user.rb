@@ -7,7 +7,9 @@ class User < ActiveRecord::Base
   validates_length_of :password, minimum: 4
   validates_length_of :username, minimum: 3, maximum: 15
   validates_each :password do |record, attr, value|
-    record.errors.add(attr, 'must contain numbers of special characters') if /\A[a-zA-Z]*\Z/ =~ value
+    if /\A[a-zA-Z]*\Z/ =~ value
+      record.errors.add(attr, 'must contain numbers of special characters')
+    end
   end
 
   has_many :ratings, dependent: :destroy
