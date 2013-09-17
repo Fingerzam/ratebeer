@@ -120,23 +120,30 @@ describe User do
     end
   end
 
+  def create_beer(score, brewery, style, user)
+    beer = create_beer_without_brewery(score,style,user)
+    beer.brewery = brewery
+    beer.save
+    beer
+  end
+
+  def create_beer_without_brewery(score, style, user)
+    beer = FactoryGirl.create(:beer, style: style)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
+    beer
+  end
+
   def create_beers_with_ratings_and_brewery(*scores, brewery, user)
     for score in scores
-      create_beer_with_rating_and_brewery(score, brewery, user)
+      create_beer(score, brewery, "Lager", user)
     end
   end
 
   def create_beer_with_rating_and_brewery(score, brewery, user)
-    beer = FactoryGirl.create(:beer, brewery: brewery)
-    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
-    beer
+    create_beer(score, brewery, "Lager", user)
   end
 
-  def create_beer_with_rating_and_style(score, style, user)
-    beer = FactoryGirl.create(:beer, style:style)
-    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
-    beer
-  end
+  alias_method :create_beer_with_rating_and_style, :create_beer_without_brewery
 
   def create_beers_with_ratings_and_style(*scores, style, user)
     for score in scores
@@ -145,14 +152,10 @@ describe User do
   end
 
   def create_beers_with_ratings(*scores, user)
-    for score in scores
-      create_beer_with_rating score, user
-    end
+    create_beers_with_ratings_and_style(*scores, "Lager", user)
   end
 
   def create_beer_with_rating(score, user)
-    beer = FactoryGirl.create(:beer)
-    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
-    beer
+    create_beer_without_brewery(score, "Lager", user)
   end
 end

@@ -34,6 +34,24 @@
   </p>
 <% end %>
 
+<% unless @user.favorite_beer.nil? %>
+  <p>Favorite beer:
+  <%= @user.favorite_beer %>
+  </p>
+<% end %>
+
+<% unless @user.favorite_style.nil? %>
+  <p>Favorite style:
+  <%= @user.favorite_style %>
+  </p>
+<% end %>
+
+<% unless @user.favorite_brewery.nil? %>
+  <p>Favorite brewery:
+  <%= @user.favorite_brewery.name %>
+  </p>
+<% end %>
+
 <% if currently_signed_in? @user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
   <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
