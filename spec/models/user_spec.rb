@@ -8,7 +8,7 @@ describe User do
 
   it "is not saved without a proper password" do
     user = User.create username: "Pekka"
-    
+
     expect(user.valid?).to be(false)
     expect(User.count).to eq(0)
   end
@@ -67,11 +67,86 @@ describe User do
     end
 
     it "is the one with highest rating if several rated" do
-      create_beer_with_rating 10, user
+      create_beers_with_ratings 10, 20, 15, 7, 9, user
       best = create_beer_with_rating 25, user
-      create_beer_with_rating 7, user
 
       expect(user.favorite_beer).to eq(best)
+    end
+  end
+
+
+  describe "favorite style" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "has method favorite_style" do
+      user.should respond_to :favorite_style
+    end
+
+    it "with no ratings does not have one" do
+      expect(user.favorite_style).to eq(nil)
+    end
+
+    it "is the style with the highest average rating" do
+      create_beers_with_ratings_and_style(11,12,13, "Lager", user)
+      create_beers_with_ratings_and_style(21,32,23, "Lambic", user)
+
+      expect(user.favorite_style).to eq("Lambic")
+    end
+  end
+
+  describe "favorite_brewery" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it "has method favorite_brewery" do
+      user.should respond_to :favorite_brewery
+    end
+
+    it "without ratings does not have a favorite brewery" do
+      expect(user.favorite_brewery).to eq(nil)
+    end
+
+    it "with rated beers from only one brewery has that brewery as the favorite" do
+      beer = create_beer_with_rating(14, user)
+      expect(user.favorite_brewery).to eq(beer.brewery)
+    end
+
+    it "with rated beers from multiple breweries has the one with highest average score as the favorite" do
+      brewery1 = FactoryGirl.create(:brewery)
+      brewery2 = FactoryGirl.create(:brewery)
+      create_beers_with_ratings_and_brewery(11,12,13, brewery1, user)
+      create_beers_with_ratings_and_brewery(21,22,13, brewery2, user)
+
+      expect(user.favorite_brewery).to eq(brewery2)
+    end
+  end
+
+  def create_beers_with_ratings_and_brewery(*scores, brewery, user)
+    for score in scores
+      create_beer_with_rating_and_brewery(score, brewery, user)
+    end
+  end
+
+  def create_beer_with_rating_and_brewery(score, brewery, user)
+    beer = FactoryGirl.create(:beer, brewery: brewery)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
+    beer
+  end
+
+  def create_beer_with_rating_and_style(score, style, user)
+    beer = FactoryGirl.create(:beer, style:style)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
+    beer
+  end
+
+  def create_beers_with_ratings_and_style(*scores, style, user)
+    for score in scores
+      create_beer_with_rating_and_style(score, style, user)
+    end
+  end
+
+  def create_beers_with_ratings(*scores, user)
+    for score in scores
+      create_beer_with_rating score, user
     end
   end
 
