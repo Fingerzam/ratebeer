@@ -1,30 +1,44 @@
 require 'spec_helper'
 
 describe "User" do
+  include OwnTestHelper
+
   before :each do
-    FactoryGirl.create :user
+    @user = FactoryGirl.create :user
   end
 
   describe "who has signed up" do
-    it "can sign in with right credentials" do
-      visit signin_path
-      fill_in('username', with: "Pekka")
-      fill_in('password', with: "foobar1")
-      click_button('Log in')
+    describe "and signed up" do
+      before :each do
+        sign_in 'Pekka', 'foobar1'
+      end
 
-      expect(page).to have_content "Welcome back!"
-      expect(page).to have_content "Pekka"
+      it "can sign in with right credentials" do
+        expect(page).to have_content "Welcome back!"
+        expect(page).to have_content "Pekka"
+      end
+
+      it "without ratings has no favorites" do
+        expect(page).not_to have_content("Favorite")
+      end
+
+      it "with ratings should display favorites" do
+        brewery = FactoryGirl.create :brewery
+        beer = FactoryGirl.create :beer, name: "Beer", brewery: brewery
+        rating = FactoryGirl.create :rating, beer: beer, score: 10, user: @user
+
+        visit user_path(@user.id)
+        expect(page).to have_content("Favorite")
+      end
     end
 
     it "is redirected back to sign in form with wrong credentials" do
-      visit signin_path
-      fill_in('username', with: "Pekka")
-      fill_in('password', with: "wrong")
-      click_button('Log in')
+      sign_in 'Pekka', 'wrong'
 
       expect(current_path).to eq(signin_path)
       expect(page).to have_content "username and password do not match"
     end
+
 
     it "when signed up with good credentials, is added to the system" do
       visit signup_path
