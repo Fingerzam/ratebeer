@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/fingerzam/ratebeer.png?branch=master)](https://travis-ci.org/fingerzam/ratebeer)
+[![Build Status](https://travis-ci.org/Fingerzam/ratebeer.png?branch=master)](https://travis-ci.org/Fingerzam/ratebeer)
 
 == Ratebeer
 
