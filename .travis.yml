@@ -8,3 +8,11 @@ script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
   - bundle exec rspec -f d spec/
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: po3z6bsNIuuaGmKXrUnCjy2S9rzkZEnHVAaj9Uc2Mgj+AfZuPcTIuE2weIGFnSTG7kzVAMcpGSJ8A5UsXX//ayS2WKvzmCqKOR4kkKqe2XHym7FzFBJ/vB0+sb0cpNrG1kaWrQeVekzwYTyiUOyGRnvo/iDQTYtabjtGHSQzQZE=
+  app: ratebeer
+  on:
+    repo: Fingerzam/ratebeer
