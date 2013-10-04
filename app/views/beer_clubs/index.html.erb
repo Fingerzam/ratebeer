@@ -16,12 +16,14 @@
     <td><%= beer_club.founded %></td>
     <td><%= beer_club.city %></td>
     <td><%= link_to 'Show', beer_club %></td>
-    <td><%= link_to 'Edit', edit_beer_club_path(beer_club) %></td>
-    <td><%= link_to 'Destroy', beer_club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% unless current_user.nil? %>
+      <td><%= link_to 'Edit', edit_beer_club_path(beer_club) %></td>
+      <td><%= link_to 'Destroy', beer_club, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Beer club', new_beer_club_path %>
+<%= link_to 'New Beer club', new_beer_club_path unless current_user.nil? %>
