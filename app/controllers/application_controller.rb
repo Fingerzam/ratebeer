@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :currently_signed_in?
   
   def current_user
+    return if User.count == 0
     return if session[:user_id].nil?
     User.find(session[:user_id])
   end
@@ -17,6 +18,6 @@ class ApplicationController < ActionController::Base
   end
 
   def admin?
-    current_user.admin
+    redirect_to :back, :notice => 'you are not an admin' unless current_user.admin
   end
 end

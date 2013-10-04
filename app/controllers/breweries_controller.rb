@@ -1,5 +1,6 @@
 class BreweriesController < ApplicationController
-  before_filter :authenticate, only: [:destroy]
+  before_filter :admin?, only: [:destroy]
+
   # GET /breweries
   # GET /breweries.json
   def index
