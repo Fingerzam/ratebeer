@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   include AverageRating
-  attr_accessible :username, :password, :password_confirmation
+  attr_accessible :username, :password, :password_confirmation, :admin
   has_secure_password
 
   validates_uniqueness_of :username
