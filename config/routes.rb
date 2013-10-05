@@ -15,6 +15,9 @@ Ratebeer::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
+  get 'places' => 'places#index'
+  post 'places' => 'places#search'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
