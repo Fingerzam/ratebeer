@@ -21,7 +21,7 @@ describe "BeermappingAPI" do
     END_OF_STRING
 
     stub_request(:get, /.*/).to_return(body: s, headers: {'Content-Type' => "text/xml" })
-    places = BeermappingAPI.places_in("tampere")
+    places = BeermappingAPI.places_in("rovaniemi")
 
     expect(places.size).to eq(0)
   end
