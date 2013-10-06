@@ -19,6 +19,7 @@
         <% for field in Place.rendered_fields %>
           <td><%= place.send(field) %></td>
         <% end %>
+        <td><%= link_to 'link', place_path(place.id) %></td>
       </tr>
     <% end %>
   </table>

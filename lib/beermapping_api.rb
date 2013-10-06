@@ -9,6 +9,15 @@ class BeermappingAPI
     end
   end
 
+  def self.location id
+    Place
+    Time
+
+    Rails.cache.fetch(id, expires_in: 1.hour) do
+      fetch_location_by_id id
+    end
+  end
+
   private
 
   def self.fetch_places_in(city)
@@ -20,6 +29,14 @@ class BeermappingAPI
 
     places = [places] if places.is_a?(Hash)
     places.map {|place| Place.new(place) }
+  end
+
+  def self.fetch_location_by_id id
+    url = "http://beermapping.com/webservice/locquery/#{key}/#{id}"
+    response = HTTParty.get url
+    place = response.parsed_response["bmp_locations"]["location"]
+    return nil if place['id'].nil?
+    Place.new(place)
   end
 
   def self.key

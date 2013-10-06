@@ -10,4 +10,13 @@ class PlacesController < ApplicationController
       render :index
     end
   end
+
+  def show
+    @place = BeermappingAPI.location(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @beer }
+    end
+  end
 end
