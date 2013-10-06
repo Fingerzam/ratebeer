@@ -13,6 +13,7 @@ class PlacesController < ApplicationController
 
   def show
     @place = BeermappingAPI.location(params[:id])
+    @score = BeermappingAPI.location_score(params[:id])
 
     respond_to do |format|
       format.html

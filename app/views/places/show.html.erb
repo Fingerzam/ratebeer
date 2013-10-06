@@ -12,4 +12,13 @@
 <%= @place.zip %>
 </p>
 
+<p>
+  <b>Scores:</b>
+  <ul>
+    <% for field in LocationScore.rendered_fields %>
+      <li><%= "#{field.to_s}: #{@score.send(field)}" %></li>
+    <% end %>
+  </ul>
+</p>
+
 <iframe src="<%= @place.blogmap %>" width=500 height=500></iframe>

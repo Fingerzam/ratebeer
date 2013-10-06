@@ -4,7 +4,7 @@ class BeermappingAPI
     Time
     city = city.downcase
 
-    Rails.cache.fetch(city, expires_in: 1.hour) do
+    Rails.cache.fetch({city: city}, expires_in: 1.hour) do
       fetch_places_in(city)
     end
   end
@@ -13,8 +13,17 @@ class BeermappingAPI
     Place
     Time
 
-    Rails.cache.fetch(id, expires_in: 1.hour) do
+    Rails.cache.fetch({location: id}, expires_in: 1.hour) do
       fetch_location_by_id id
+    end
+  end
+
+  def self.location_score id
+    LocationScore
+    Time
+
+    Rails.cache.fetch({location_score: id}, expores_in: 1.hour) do
+      fetch_location_score id
     end
   end
 
@@ -37,6 +46,14 @@ class BeermappingAPI
     place = response.parsed_response["bmp_locations"]["location"]
     return nil if place['id'].nil?
     Place.new(place)
+  end
+
+  def self.fetch_location_score id
+    url = "http://beermapping.com/webservice/locscore/#{key}/#{id}"
+    response = HTTParty.get url
+    location_score = response.parsed_response["bmp_locations"]["location"]
+    return nil if location_score["overall"].nil?
+    LocationScore.new(location_score)
   end
 
   def self.key
