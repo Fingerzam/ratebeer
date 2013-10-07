@@ -17,9 +17,12 @@
     <% for place in @places %>
       <tr>
         <% for field in Place.rendered_fields %>
-          <td><%= place.send(field) %></td>
+          <% if field == :name && place.id %>
+            <td><%= link_to place.name, place_path(place.id) %></td>
+          <% else %>
+            <td><%= place.send(field) %></td>
+          <% end %>
         <% end %>
-        <td><%= link_to 'link', place_path(place.id) %></td>
       </tr>
     <% end %>
   </table>

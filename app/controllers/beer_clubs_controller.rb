@@ -14,6 +14,9 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1.json
   def show
     @beer_club = BeerClub.find(params[:id])
+    @membership = Membership.new
+    @membership.beer_club = @beer_club
+    @membership.user = current_user
 
     respond_to do |format|
       format.html # show.html.erb

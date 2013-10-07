@@ -23,4 +23,14 @@ describe "Places" do
     expect(page).to have_content "Oljenkorsi"
     expect(page).to have_content "Olotila"
   end
+
+  it "shows none if API returns empty list" do
+    BeermappingAPI.stub(:places_in)
+                  .with("rovaniemi")
+                  .and_return([])
+
+    visit places_path
+    fill_in('city', with: 'rovaniemi')
+    expect(page).to_not have_content('id')
+  end
 end
