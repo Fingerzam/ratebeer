@@ -23,20 +23,11 @@ class User < ActiveRecord::Base
 
   def favorite_beer
     return nil if ratings.empty?
-    ratings.sort_by { |r| r.score }.last.beer
+    ratings.sort_by(&:score).last.beer
   end
 
-  def favorite_style
-    styles = beers.map &:style
-    styles.uniq!
-
-    styles.max_by &method(:average_rating_for_style)
-  end
-
-  def average_rating_for_style(style)
-    ratings_with_style = ratings.select { |r| r.beer.style == style }
-    scores = ratings_with_style.map &:score
-    average scores
+  def rated category
+    ratings.map {|r| r.beer.send(category) }.uniq
   end
 
   def average(list)
@@ -44,15 +35,17 @@ class User < ActiveRecord::Base
     sum/list.length
   end
 
-  def favorite_brewery
-    return nil if beers.empty?
-    breweries = beers.map &:brewery
-    breweries.max_by &method(:average_rating_for_breweries)
+  def rating_average_for category, instance
+    ratings_of_category = ratings.select {|r| r.beer.send(category) == instance}
+    return 0 if ratings_of_category.empty?
+    average ratings_of_category.map(&:score)
   end
 
-  def average_rating_for_breweries(brewery)
-    ratings_with_brewery = ratings.select {|r| r.beer.brewery == brewery}
-    scores = ratings_with_brewery.map &:score
-    average scores
+  def favorite category
+    rated(category).max_by {|instance| rating_average_for(category, instance)}
+  end
+
+  [:style,:brewery].each do |category|
+    define_method("favorite_#{category.to_s}".to_sym) {favorite category}
   end
 end
