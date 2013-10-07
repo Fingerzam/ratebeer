@@ -46,6 +46,6 @@ class User < ActiveRecord::Base
   end
 
   [:style,:brewery].each do |category|
-    define_method("favorite_#{category.to_s}".to_sym) {favorite category}
+    define_method("favorite_#{category}") {favorite category}
   end
 end
