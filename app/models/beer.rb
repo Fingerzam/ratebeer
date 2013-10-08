@@ -3,7 +3,7 @@ class Beer < ActiveRecord::Base
   attr_accessible :brewery_id, :name, :style_id
 
   validates_length_of :name, minimum: 1
-  validates_existence_of :style
+  validates_presence_of :style
 
   belongs_to :brewery
   belongs_to :style

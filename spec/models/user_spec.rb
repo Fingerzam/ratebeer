@@ -87,10 +87,12 @@ describe "User" do
     end
 
     it "is the style with the highest average rating" do
-      create_beers_with_ratings_and_style(11,12,13, "Lager", user)
-      create_beers_with_ratings_and_style(21,32,23, "Lambic", user)
+      lambic = FactoryGirl.create :style, name: "Lambic"
+      lager = FactoryGirl.create :style, name: "Lager"
+      create_beers_with_ratings_and_style(11,12,13, lager, user)
+      create_beers_with_ratings_and_style(21,32,23, lambic, user)
 
-      expect(user.favorite_style).to eq("Lambic")
+      expect(user.favorite_style).to eq(lambic)
     end
   end
 
@@ -134,13 +136,15 @@ describe "User" do
   end
 
   def create_beers_with_ratings_and_brewery(*scores, brewery, user)
+    style = FactoryGirl.create :style
     for score in scores
-      create_beer(score, brewery, "Lager", user)
+      create_beer(score, brewery, style, user)
     end
   end
 
   def create_beer_with_rating_and_brewery(score, brewery, user)
-    create_beer(score, brewery, "Lager", user)
+    style = FactoryGirl.create :style
+    create_beer(score, brewery, style, user)
   end
 
   alias_method :create_beer_with_rating_and_style, :create_beer_without_brewery
@@ -152,10 +156,12 @@ describe "User" do
   end
 
   def create_beers_with_ratings(*scores, user)
-    create_beers_with_ratings_and_style(*scores, "Lager", user)
+    style = FactoryGirl.create :style
+    create_beers_with_ratings_and_style(*scores, style, user)
   end
 
   def create_beer_with_rating(score, user)
-    create_beer_without_brewery(score, "Lager", user)
+    style = FactoryGirl.create :style
+    create_beer_without_brewery(score, style, user)
   end
 end
