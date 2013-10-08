@@ -43,7 +43,7 @@ class BeersController < ApplicationController
   end
 
   def prepare_breweries_and_styles
-    @styles = ["Weizen", "Lager", "Pale ale", "IPA", "Porter"]
+    @styles = Style.all
     @breweries = Brewery.all
   end
 
