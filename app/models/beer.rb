@@ -1,6 +1,6 @@
 class Beer < ActiveRecord::Base
   include AverageRating
-  attr_accessible :brewery_id, :name
+  attr_accessible :brewery_id, :name, :style_id
 
   validates_length_of :name, minimum: 1
 

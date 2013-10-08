@@ -11,3 +11,5 @@
     <% end %>
   </ul>
 </p>
+
+<%= link_to 'Create a new style', new_style_path unless current_user.nil? %>

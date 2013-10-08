@@ -1,5 +1,6 @@
 class BreweriesController < ApplicationController
   before_filter :admin?, only: [:destroy]
+  before_filter :ensure_that_signed_in, except: [:index, :show]
 
   # GET /breweries
   # GET /breweries.json

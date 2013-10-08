@@ -1,0 +1,15 @@
+<%= form_for(@style) do |f| %>
+  <div class="field">
+    <%= f.label :name %><br />
+    <% name = @style.name || "" %>
+    <%= f.text_field :name %><br />
+  </div>
+  <div class="field">
+    <%= f.label :style %><br />
+    <% description = @style.description || "" %>
+    <%= f.text_area(:description, size: "80x10") %><br />
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
