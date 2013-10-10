@@ -1,18 +1,19 @@
 class BeersController < ApplicationController
-  before_filter :ensure_that_signed_in, :except => [:index, :show]
+  before_filter :ensure_that_signed_in, :except => [:index, :show, :list]
   # GET /beers
   # GET /beers.json
   def index
-    order = params[:order]
-    order_name_to_method_name =
-      {'name' => :name, 'brewery' => :brewery, 'style' => :style}
-    order_method = order_name_to_method_name[order] || :name
+    method_name = {'name' => :name, 'brewery' => :brewery, 'style' => :style}
+    order_method = method_name[params[:order]] || :name
     @beers = Beer.all.sort_by(&order_method)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @beers }
+      format.json { render json: @beers, methods: [:brewery, :style] }
     end
+  end
+
+  def list
   end
 
   # GET /beers/1
