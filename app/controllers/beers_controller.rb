@@ -3,7 +3,11 @@ class BeersController < ApplicationController
   # GET /beers
   # GET /beers.json
   def index
-    @beers = Beer.all
+    order = params[:order]
+    order_name_to_method_name =
+      {'name' => :name, 'brewery' => :brewery, 'style' => :style}
+    order_method = order_name_to_method_name[order] || :name
+    @beers = Beer.all.sort_by(&order_method)
 
     respond_to do |format|
       format.html # index.html.erb
