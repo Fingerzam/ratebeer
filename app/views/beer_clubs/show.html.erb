@@ -26,7 +26,7 @@
   </ul>
 </p>
 
-<% unless current_user.nil? %>
+<% unless current_user.nil? or @beer_club.members.member?(current_user) %>
   <p>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :user_id %>
@@ -37,5 +37,10 @@
 <% end %>
 
 
-<%= link_to 'Edit', edit_beer_club_path(@beer_club) %> |
-<%= link_to 'Back', beer_clubs_path %>
+<% unless current_user.nil? %>
+  <%= link_to 'Edit', edit_beer_club_path(@beer_club), class: "btn" %>
+  <% if current_user.admin %>
+    <%= link_to 'Destroy', @beer_club, method: :delete,
+                data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+  <% end %>
+<% end %>

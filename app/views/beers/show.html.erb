@@ -33,5 +33,10 @@
 <% end %>
 
 
-<%= link_to 'Edit', edit_beer_path(@beer) %> |
-<%= link_to 'Back', beers_path %>
+<% unless current_user.nil? %>
+  <%= link_to 'Edit', edit_beer_path(@beer), class: "btn" %>
+  <% if current_user.admin %>
+    <%= link_to 'Destroy', @beer, method: :delete,
+                data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+  <% end %>
+<% end %>
