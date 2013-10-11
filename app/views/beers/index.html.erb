@@ -1,26 +1,31 @@
 <h1>Listing beers</h1>
 
-<table>
-  <tr>
-    <th><%= link_to 'Name', beers_path(order: "name") %></th>
-    <th><%= link_to 'Style', beers_path(order: "style") %></th>
-    <th><%= link_to 'Brewery', beers_path(order: "brewery") %></th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th><%= link_to 'Name', beers_path(order: "name") %></th>
+      <th><%= link_to 'Style', beers_path(order: "style") %></th>
+      <th><%= link_to 'Brewery', beers_path(order: "brewery") %></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-<% @beers.each do |beer| %>
-  <tr>
-    <td><%= link_to beer.name, beer %></td>
-    <td><%= link_to beer.style.name, style_path(beer.style.id) %></td>
-    <td><%= link_to beer.brewery.name, beer.brewery %></td>
-    <% unless current_user.nil? %>
-      <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
-      <td><%= link_to 'Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <tbody>
+    <% @beers.each do |beer| %>
+      <tr>
+        <td><%= link_to beer.name, beer %></td>
+        <td><%= link_to beer.style.name, style_path(beer.style.id) %></td>
+        <td><%= link_to beer.brewery.name, beer.brewery %></td>
+        <% unless current_user.nil? %>
+          <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
+          <td><%= link_to 'Destroy', beer, method: :delete,
+                          data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
     <% end %>
-  </tr>
-<% end %>
+  </tbody>
 </table>
 
 <br />

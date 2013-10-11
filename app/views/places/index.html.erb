@@ -8,23 +8,25 @@
 <% end %>
 
 <% if @places %>
-  <table>
+  <table class="table table-hover">
     <thead>
       <% for field in Place.rendered_fields %>
         <td> <%= field %>
       <% end %>
     </thead>
-    <% for place in @places %>
-      <tr>
-        <% for field in Place.rendered_fields %>
-          <% if field == :name && place.id %>
-            <td><%= link_to place.name, place_path(place.id) %></td>
-          <% else %>
-            <td><%= place.send(field) %></td>
+    <tbody>
+      <% for place in @places %>
+        <tr>
+          <% for field in Place.rendered_fields %>
+            <% if field == :name && place.id %>
+              <td><%= link_to place.name, place_path(place.id) %></td>
+            <% else %>
+              <td><%= place.send(field) %></td>
+            <% end %>
           <% end %>
-        <% end %>
-      </tr>
-    <% end %>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 <% end %>
 

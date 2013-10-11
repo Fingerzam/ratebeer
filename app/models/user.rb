@@ -31,8 +31,8 @@ class User < ActiveRecord::Base
   end
 
   def average(list)
-    sum = list.inject(:+)
-    sum/list.length
+    sum = list.inject(0.0, :+)
+    sum/[1,list.length].max
   end
 
   def rating_average_for category, instance
@@ -42,7 +42,10 @@ class User < ActiveRecord::Base
   end
 
   def favorite category
-    rated(category).max_by {|instance| rating_average_for(category, instance)}
+    grouped = ratings.group_by {|r| r.beer.send category}.select{|_, ratings| not ratings.nil? and ratings.count > 0}
+    return nil if grouped.count == 0
+    grouped.max_by{|_, ratings| average(ratings.map(&:score))}.first
+    #rated(category).max_by {|instance| rating_average_for(category, instance)}
   end
 
   [:style,:brewery].each do |category|
