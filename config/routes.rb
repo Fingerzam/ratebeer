@@ -2,9 +2,12 @@ Ratebeer::Application.routes.draw do
   resources :memberships, only: [:new, :create, :destroy, :index]
   resources :beer_clubs
   resources :users
-
   resources :beers
-  resources :breweries
+
+  resources :breweries do
+    post 'toggle_activity', on: :member
+  end
+
   resources :ratings, only: [:index, :new, :create, :destroy]
   root :to => 'breweries#index'
   get 'kaikki_bisset', to: 'beers#index'
