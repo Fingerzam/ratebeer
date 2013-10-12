@@ -20,7 +20,7 @@
     <p>beer has not been rated yet!</p>
   <% else %>
     beer has <%= pluralize(@beer.ratings.size, 'rating') %>, avarage
-    <%= @beer.average_rating %>
+    <%= round(@beer.average_rating) %>
   <% end %>
 </p>
 
@@ -32,11 +32,5 @@
   <%= f.submit class: "btn btn-primary" %>
 <% end %>
 
+<%= edit_and_destroy_buttons(@beer) %>
 
-<% unless current_user.nil? %>
-  <%= link_to 'Edit', edit_beer_path(@beer), class: "btn" %>
-  <% if current_user.admin %>
-    <%= link_to 'Destroy', @beer, method: :delete,
-                data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-  <% end %>
-<% end %>

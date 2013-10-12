@@ -11,7 +11,7 @@
       <% things.zip(things.map(&:average_rating)).each do |thing, average| %>
         <tr>
           <td><%= link_to thing.name, thing %></td>
-          <td><%= average %>
+          <td><%= round(average) %>
         </tr>
       <% end %>
     </tbody>

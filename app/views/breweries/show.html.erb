@@ -24,15 +24,9 @@
 <% unless @brewery.ratings.empty? %>
   <p>
     <%= pluralize @brewery.ratings.length, 'rating' %>, average:
-    <%= @brewery.average_rating %>
+    <%= round(@brewery.average_rating) %>
   </p>
 <% end %>
 
 
-<% if signed_in? %>
-  <%= link_to 'Edit', edit_brewery_path(@brewery), class: "btn" %>
-  <% if current_user.admin %>
-    <%= link_to 'Destroy', @brewery, method: :delete,
-                data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
-  <% end %>
-<% end %>
+<%= edit_and_destroy_buttons(@brewery) %>
