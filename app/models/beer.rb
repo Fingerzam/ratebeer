@@ -1,5 +1,7 @@
 class Beer < ActiveRecord::Base
   include AverageRating
+  extend TopRated
+
   attr_accessible :brewery_id, :name, :style_id
 
   validates_length_of :name, minimum: 1

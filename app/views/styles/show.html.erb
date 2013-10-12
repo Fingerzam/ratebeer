@@ -17,5 +17,6 @@
   </ul>
 </p>
 
-<%= link_to 'Edit', edit_style_path(@style) unless current_user.nil?%>
-<%= link_to 'Destroy', @style, method: :delete, data: { confirm: 'Are tou sure?' } if not current_user.nil? and current_user.admin %>
+<%= link_to 'Edit', edit_style_path(@style), class: "btn" if signed_in? %>
+<%= link_to 'Destroy', @style, method: :delete,
+            data: { confirm: 'Are tou sure?' }, class: "btn btn-danger" if signed_in? and current_user.admin %>

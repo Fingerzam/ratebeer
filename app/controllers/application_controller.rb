@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :currently_signed_in?
+  helper_method :current_user, :currently_signed_in?, :signed_in?
   
   def current_user
     return if User.count == 0
@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
 
   def currently_signed_in?(user)
     current_user == user
+  end
+
+  def signed_in?
+    not current_user.nil?
   end
 
   def ensure_that_signed_in

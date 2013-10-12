@@ -5,6 +5,8 @@ class Rating < ActiveRecord::Base
                                       less_than_or_equal_to: 50,
                                       only_integer: true }
 
+  scope :last_5, last(5)
+
   belongs_to :beer
   belongs_to :user
 

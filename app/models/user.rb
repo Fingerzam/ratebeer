@@ -17,6 +17,14 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :beer_clubs, through: :memberships
 
+  def self.active_users(n)
+    User.all
+        .sort_by{|u| u.ratings.count}
+        .reverse
+        .take(3)
+        .select{|u| u.ratings.count > 0}
+  end
+
   def to_s
     username
   end

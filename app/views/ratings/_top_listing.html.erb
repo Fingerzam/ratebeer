@@ -1,0 +1,19 @@
+<div class="span3">
+  <h2>top <%= type %></h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th>average</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% things.zip(things.map(&:average_rating)).each do |thing, average| %>
+        <tr>
+          <td><%= link_to thing.name, thing %></td>
+          <td><%= average %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

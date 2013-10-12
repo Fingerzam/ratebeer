@@ -9,6 +9,9 @@ class BreweriesController < ApplicationController
     method = method_names[params[:order]] || :name
     @breweries = Brewery.all.sort_by(&method)
 
+    @active_breweries = Brewery.active
+    @retired_breweries = Brewery.retired
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @breweries }
