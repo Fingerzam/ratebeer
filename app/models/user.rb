@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :ratings, dependent: :destroy
+  has_many :ratings, dependent: :destroy, include: [beer: [:brewery, :style]]
   has_many :beers, :through => :ratings
   has_many :memberships
   has_many :beer_clubs, through: :memberships

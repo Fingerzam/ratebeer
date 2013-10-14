@@ -5,7 +5,7 @@ class BeersController < ApplicationController
   def index
     method_name = {'name' => :name, 'brewery' => :brewery, 'style' => :style}
     order_method = method_name[params[:order]] || :name
-    @beers = Beer.all.sort_by(&order_method)
+    @beers = Beer.all(include: [:brewery, :style]).sort_by(&order_method)
 
     respond_to do |format|
       format.html # index.html.erb
