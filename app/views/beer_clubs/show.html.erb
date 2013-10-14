@@ -18,15 +18,31 @@
 <p>
   <b>Members:</b>
   <ul>
-    <% for m in @beer_club.memberships %>
+    <% for user in @beer_club.confirmed %>
       <li>
-      <%= link_to m.user.to_s, m.user %>
+        <%= link_to user, user %>
       </li>
     <% end %>
   </ul>
 </p>
 
-<% unless current_user.nil? or @beer_club.members.member?(current_user) %>
+<p>
+  <% if @beer_club.confirmed_member?(current_user) %>
+    <h3>applications</h3>
+    <ul>
+      <% @beer_club.unconfirmed.each do |u| %>
+        <li>
+          <%= u.username %>
+          <%= link_to "confirm",
+                      confirm_membership_path(@beer_club.application_for(u)),
+                      method: :post, class: "btn" %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
+
+<% unless current_user.nil? or @beer_club.confirmed_member?(current_user) %>
   <p>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :user_id %>

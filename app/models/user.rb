@@ -29,6 +29,16 @@ class User < ActiveRecord::Base
     username
   end
 
+  def confirmed_clubs
+    BeerClub.joins(:memberships).where('memberships.user_id' => id,
+                                       'memberships.confirmed' => true)
+  end
+
+  def unconfirmed_clubs
+    BeerClub.joins(:memberships).where('memberships.user_id' => id,
+                                       'memberships.confirmed' => [false, nil])
+  end
+
   def favorite_beer
     return nil if ratings.empty?
     ratings.sort_by(&:score).last.beer

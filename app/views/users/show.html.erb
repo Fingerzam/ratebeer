@@ -52,6 +52,20 @@
   </p>
 <% end %>
 
+<% unless @clubs.empty? and @unconfirmed_clubs.empty? %>
+  <p>
+    <h3>beer clubs</h3>
+    <% unless @clubs.empty? %>
+      <b>belongs to</b>
+      <%= render 'club_list', clubs: @clubs %>
+    <% end %>
+    <% unless @unconfirmed_clubs.empty? %>
+      <b>application pending for</b>
+      <%= render 'club_list', clubs: @unconfirmed_clubs %>
+    <% end %>
+  </p>
+<% end %>
+
 <% if currently_signed_in? @user %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
   <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |

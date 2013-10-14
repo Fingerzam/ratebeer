@@ -25,13 +25,13 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    ids = current_user.beer_clubs.map &:id
+    ids = current_user.beer_clubs.map(&:id)
     unless ids.include? params[:membership][:beer_club_id].to_i
       membership = Membership.create params[:membership]
       current_user.memberships << membership
     end
 
-    redirect_to beer_clubs_path
+    redirect_to :back
   end
 
   # DELETE /memberships/1
@@ -44,5 +44,14 @@ class MembershipsController < ApplicationController
       format.html { redirect_to memberships_url }
       format.json { head :no_content }
     end
+  end
+
+  def confirm
+    membership = Membership.find(params[:id])
+    if membership.beer_club.confirmed_member?(current_user)
+      membership.confirmed = true
+      membership.save
+    end
+    redirect_to :back
   end
 end

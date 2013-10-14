@@ -1,4 +1,6 @@
 class BeerClubsController < ApplicationController
+  before_filter :ensure_that_signed_in, except: [:index, :show]
+
   # GET /beer_clubs
   # GET /beer_clubs.json
   def index
@@ -47,6 +49,9 @@ class BeerClubsController < ApplicationController
 
     respond_to do |format|
       if @beer_club.save
+        Membership.create(user_id: current_user.id,
+                          beer_club_id: @beer_club.id,
+                          confirmed: true)
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
         format.json { render json: @beer_club, status: :created, location: @beer_club }
       else

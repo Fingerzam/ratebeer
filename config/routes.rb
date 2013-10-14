@@ -1,5 +1,7 @@
 Ratebeer::Application.routes.draw do
-  resources :memberships, only: [:new, :create, :destroy, :index]
+  resources :memberships, only: [:new, :create, :destroy, :index] do
+    post 'confirm', on: :member
+  end
   resources :beer_clubs
   resources :users
   resources :beers
