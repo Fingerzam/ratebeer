@@ -49,6 +49,7 @@ class BreweriesController < ApplicationController
   # POST /breweries.json
   def create
     @brewery = Brewery.new(params[:brewery])
+    expire_fragment action: :index
 
     respond_to do |format|
       if @brewery.save
@@ -68,6 +69,7 @@ class BreweriesController < ApplicationController
 
     respond_to do |format|
       if @brewery.update_attributes(params[:brewery])
+        expire_fragment action: :index
         format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,6 +84,7 @@ class BreweriesController < ApplicationController
   def destroy
     @brewery = Brewery.find(params[:id])
     @brewery.destroy
+    expire_fragment action: :index
 
     respond_to do |format|
       format.html { redirect_to breweries_url }
@@ -91,6 +94,7 @@ class BreweriesController < ApplicationController
 
   def toggle_activity
     brewery = Brewery.find(params[:id])
+    expire_fragment action: :index
     brewery.update_attribute :active, (not brewery.active)
     new_status = if brewery.active then "active" else "retired" end
     redirect_to :back, notice: "brewery activity status changed to #{new_status}"
