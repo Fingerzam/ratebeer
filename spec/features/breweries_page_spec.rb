@@ -4,7 +4,8 @@ describe "Breweries page" do
   it "should not have any breweries before they have been created" do
     visit breweries_path
     expect(page).to have_content 'Listing breweries'
-    expect(page).to have_content 'number of breweries 0'
+    expect(page).to have_content 'number of active breweries 0'
+    expect(page).to have_content 'number of retired breweries 0'
   end
 
   describe "when breweries exist" do
@@ -12,14 +13,14 @@ describe "Breweries page" do
       @breweries = ["Koff", "Karjala", "Schlenkerla"]
       year = 1896
       for brewery in @breweries
-        FactoryGirl.create(:brewery, name: brewery, year: year+= 1)
+        FactoryGirl.create(:brewery, name: brewery, year: year+= 1, active: true)
       end
 
       visit breweries_path
     end
 
     it "lists the existing breweries and their total number" do
-      expect(page).to have_content "number of breweries #{@breweries.count}"
+      expect(page).to have_content "number of active breweries #{@breweries.count}"
 
       for brewery in @breweries
         expect(page).to have_content brewery

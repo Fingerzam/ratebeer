@@ -19,9 +19,8 @@ class User < ActiveRecord::Base
 
   def self.active_users(n)
     User.all
-        .sort_by{|u| u.ratings.count}
-        .reverse
-        .take(3)
+        .sort_by{|u| -User.joins(:ratings).where(id: u.id).count}
+        .take(5)
         .select{|u| u.ratings.count > 0}
   end
 

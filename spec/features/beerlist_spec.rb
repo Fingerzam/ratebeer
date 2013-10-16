@@ -66,12 +66,12 @@ describe "Beerlist page" do
   def correct_order_after_ordering(indexToName, order)
     visit beerlist_path
     click_link order
-    correct_order(indexToName)
+    correct_order indexToName
   end
 
   def correct_order(indexToName)
     indexToName.keys.each do |i|
-      find('table').find("tr:nth-child(#{i})").should have_content(indexToName[i])
+      page.find('table').find("tr:nth-child(#{i})").should have_content(indexToName[i])
     end
   end
   
